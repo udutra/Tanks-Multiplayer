@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour {
     public Rigidbody rb;
     public Collider col;
     public int bounces = 2;
+    public int valueBulletDamage = 1;
 
 	void Start () {
         rb = GetComponent<Rigidbody>();
@@ -52,6 +53,14 @@ public class Bullet : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+
+        if(player != null)
+        {
+            Explode();
+            player.TakeDamage(valueBulletDamage);
+        }
+
         if(bounces <= 0)
         {
             Explode();

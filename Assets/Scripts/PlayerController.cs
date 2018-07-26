@@ -34,7 +34,7 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            playerShoot.Shoot();
+            playerShoot.CmdShoot();
         }
     }
 

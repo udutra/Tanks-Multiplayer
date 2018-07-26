@@ -19,13 +19,16 @@ public class PlayerShoot : NetworkBehaviour {
 		
 	}
 
-    public void Shoot()
+    [Command]
+    public void CmdShoot()
     {
         if(Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Rigidbody tempBullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
             tempBullet.velocity = bulletSpeed * bulletSpawn.transform.forward;
+
+            NetworkServer.Spawn(tempBullet.gameObject);
         }
     }
 }

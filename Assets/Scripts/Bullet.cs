@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     public ParticleSystem explosionFX;
     public Rigidbody rb;
     public Collider col;
+    public PlayerController owner;
     public int bounces = 2;
     public int valueBulletDamage = 1;
 
@@ -58,7 +59,7 @@ public class Bullet : MonoBehaviour {
         if(player != null)
         {
             Explode();
-            player.TakeDamage(valueBulletDamage);
+            player.TakeDamage(valueBulletDamage, owner);
         }
 
         if(bounces <= 0)

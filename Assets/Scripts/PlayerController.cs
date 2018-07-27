@@ -11,6 +11,7 @@ public class PlayerController : NetworkBehaviour
     public PlayerHealth pHealth;
     public GameObject spawnFX;
     public float wait = 3f;
+    public int score;
 
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();

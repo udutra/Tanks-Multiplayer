@@ -16,6 +16,10 @@ public class GameManager : NetworkBehaviour {
     public int playerCount = 0;
 
 
+    public List<PlayerController> allPlayers;
+    public List<Text> nameText;
+    public List<Text> playerScoreText;
+
     private void Awake()
     {
         if(instance == null)
@@ -57,6 +61,7 @@ public class GameManager : NetworkBehaviour {
     private IEnumerator PlayGame()
     {
         EnablePlayers();
+        UpdateScore();
         messagText.gameObject.SetActive(false);
         yield return null;
     }
@@ -84,11 +89,34 @@ public class GameManager : NetworkBehaviour {
         SetPlayerState(false);
     }
 
-    public void AddPlayer()
+    public void AddPlayer(PlayerSetup pS)
     {
         if(playerCount < maxPlayers)
         {
+            allPlayers.Add(pS.GetComponent<PlayerController>());
             playerCount++;
+        }
+    }
+
+    [ClientRpc]
+    public void RpcUpdateScore(int[] playerScores)
+    {
+        for(int i = 0; i < playerCount; i++)
+        {
+            playerScoreText[i].text = playerScores[i].ToString();
+        }
+    }
+
+    public void UpdateScore()
+    {
+        if (isServer)
+        {
+            int[] scores = new int[playerCount];
+            for (int i = 0; i < playerCount; i++)
+            {
+                scores[i] = allPlayers[i].score;
+            }
+            RpcUpdateScore(scores);
         }
     }
 }

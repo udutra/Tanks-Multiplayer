@@ -14,6 +14,7 @@ public class PlayerHealth : NetworkBehaviour
 
     public GameObject deathPrefab;
     public RectTransform healthBar;
+    public PlayerController lastAttacker;
     public float maxHealth;
     public float healthBarXSize;
 
@@ -27,17 +28,30 @@ public class PlayerHealth : NetworkBehaviour
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, PlayerController pc = null)
     {
         if (!isServer)
         {
             return;
         }
 
+        if(pc != null && pc != this.GetComponent<PlayerController>() )
+        {
+            lastAttacker = pc;
+        }
+
         currentHealth -= damage;
 
         if(currentHealth <= 0 && !isDead)
         {
+            if(lastAttacker != null)
+            {
+                lastAttacker.score++;
+                lastAttacker = null;
+            }
+
+            GameManager.instance.UpdateScore();
+
             isDead = true;
             RpcDie();
         }

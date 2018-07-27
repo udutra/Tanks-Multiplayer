@@ -27,7 +27,7 @@ public class PlayerShoot : NetworkBehaviour {
             nextFire = Time.time + fireRate;
             Rigidbody tempBullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
             tempBullet.velocity = bulletSpeed * bulletSpawn.transform.forward;
-
+            tempBullet.GetComponent<Bullet>().owner = GetComponent<PlayerController>();
             NetworkServer.Spawn(tempBullet.gameObject);
         }
     }

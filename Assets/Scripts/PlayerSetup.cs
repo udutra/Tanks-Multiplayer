@@ -45,6 +45,6 @@ public class PlayerSetup : NetworkBehaviour
     [Command]
     public void CmdSetupPlayer()
     {
-        GameManager.instance.AddPlayer();
+        GameManager.instance.AddPlayer(this);
     }
 }

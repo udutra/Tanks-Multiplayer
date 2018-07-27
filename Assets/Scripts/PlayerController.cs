@@ -7,17 +7,19 @@ public class PlayerController : NetworkBehaviour
 {
 
     private PlayerMotor pMotor;
-    private PlayerShoot playerShoot;
+    private PlayerShoot pShoot;
+    private PlayerHealth pHealth;
 
 
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();
-        playerShoot = GetComponent<PlayerShoot>();
+        pShoot = GetComponent<PlayerShoot>();
+        pHealth = GetComponent<PlayerHealth>();
 	}
 	
 	void Update () {
 
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || pHealth.isDead)
         {
             return;
         }
@@ -34,13 +36,13 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            playerShoot.CmdShoot();
+            pShoot.CmdShoot();
         }
     }
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || pHealth.isDead)
         {
             return;
         }

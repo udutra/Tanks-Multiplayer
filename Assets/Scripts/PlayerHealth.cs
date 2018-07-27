@@ -6,27 +6,40 @@ using UnityEngine.UI;
 
 public class PlayerHealth : NetworkBehaviour
 {
-    public GameObject deathPrefab;
+    [SyncVar(hook = "UpdadeHealfBar")]
     public float currentHealth;
-    public float maxHealth;
+
+    [SyncVar]
     public bool isDead = false;
+
+    public GameObject deathPrefab;
     public RectTransform healthBar;
+    public float maxHealth;
     public float healthBarXSize;
+
+    private void Awake()
+    {
+        healthBarXSize = healthBar.sizeDelta.x;
+    }
 
     private void Start()
     {
         currentHealth = maxHealth;
-        healthBarXSize = healthBar.sizeDelta.x;
     }
 
     public void TakeDamage(float damage)
     {
+        if (!isServer)
+        {
+            return;
+        }
+
         currentHealth -= damage;
-        UpdadeHealfBar(currentHealth);
+
         if(currentHealth <= 0 && !isDead)
         {
             isDead = true;
-            Die();
+            RpcDie();
         }
     }
 
@@ -35,7 +48,8 @@ public class PlayerHealth : NetworkBehaviour
         healthBar.sizeDelta = new Vector2(value / maxHealth * healthBarXSize, healthBar.sizeDelta.y);
     }
 
-    public void Die()
+    [ClientRpc]
+    public void RpcDie()
     {
         GameObject deathFX = Instantiate(deathPrefab, transform.position + Vector3.up * 0.5f, Quaternion.identity);
         Destroy(deathFX, 3f);

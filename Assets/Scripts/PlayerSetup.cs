@@ -29,6 +29,9 @@ public class PlayerSetup : NetworkBehaviour
     public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
+
+        CmdSetupPlayer();
+
         MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
 
         foreach (MeshRenderer m in meshes)
@@ -37,5 +40,11 @@ public class PlayerSetup : NetworkBehaviour
         }
         playerNameText.enabled = true;
         playerNameText.text = baseName + " " + playerNum;
+    }
+
+    [Command]
+    public void CmdSetupPlayer()
+    {
+        GameManager.instance.AddPlayer();
     }
 }

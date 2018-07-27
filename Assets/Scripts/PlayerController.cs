@@ -6,10 +6,11 @@ using UnityEngine.Networking;
 public class PlayerController : NetworkBehaviour
 {
 
-    private PlayerMotor pMotor;
-    private PlayerShoot pShoot;
-    private PlayerHealth pHealth;
-
+    public PlayerMotor pMotor;
+    public PlayerShoot pShoot;
+    public PlayerHealth pHealth;
+    public GameObject spawnFX;
+    public float wait = 3f;
 
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();
@@ -55,6 +56,19 @@ public class PlayerController : NetworkBehaviour
         float v = Input.GetAxis("Vertical");
         return new Vector3(h, 0, v);
     }
-
     
+    public void Disable()
+    {
+        StartCoroutine(Respawn());
+    }
+
+    public IEnumerator Respawn()
+    {
+        transform.position = Vector3.zero;
+        pMotor.rb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(wait);
+        pHealth.Reset();
+        GameObject newSpawnFX = Instantiate(spawnFX, transform.position, Quaternion.identity);
+        Destroy(newSpawnFX, 3f);
+    }
 }

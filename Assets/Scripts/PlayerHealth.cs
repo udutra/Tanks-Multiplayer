@@ -55,6 +55,8 @@ public class PlayerHealth : NetworkBehaviour
         Destroy(deathFX, 3f);
 
         SetActiveState(false);
+
+        gameObject.SendMessage("Disable");
     }
 
     public void SetActiveState(bool state)
@@ -73,5 +75,12 @@ public class PlayerHealth : NetworkBehaviour
         {
             r.enabled = state;
         }
+    }
+
+    public void Reset()
+    {
+        currentHealth = maxHealth;
+        SetActiveState(true);
+        isDead = false;
     }
 }

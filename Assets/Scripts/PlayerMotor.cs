@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class PlayerMotor : NetworkBehaviour
 {
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     public Transform chassis;
     public Transform turret;
     public float moveSpeed = 150f;

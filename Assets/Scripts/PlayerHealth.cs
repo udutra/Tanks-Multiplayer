@@ -25,7 +25,7 @@ public class PlayerHealth : NetworkBehaviour
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        Reset();
     }
 
     public void TakeDamage(float damage, PlayerController pc = null)

@@ -236,7 +236,7 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 1541543762400756, guid: 9b482c84dc2381a47a87d1e2c886e5b0,
     type: 2}
   m_AutoCreatePlayer: 1
-  m_PlayerSpawnMethod: 1
+  m_PlayerSpawnMethod: 0
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
@@ -283,7 +283,7 @@ MonoBehaviour:
     m_MaxTimerTimeout: 12000
     m_MinNetSimulatorTimeout: 1
     m_MaxNetSimulatorTimeout: 12000
-  m_Channels: 
+  m_Channels: 0500000000000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -585,9 +585,11 @@ GameObject:
   m_Component:
   - component: {fileID: 179049137}
   - component: {fileID: 179049138}
+  - component: {fileID: 179049140}
+  - component: {fileID: 179049139}
   m_Layer: 0
   m_Name: Spawn Point (3)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -616,6 +618,30 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &179049139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 179049136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e0f973a3efdd0439a797474ee0f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOcupied: 0
+--- !u!135 &179049140
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 179049136}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &208020130
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,7 +724,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 3
+  m_Text: 
 --- !u!222 &208020134
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -715,9 +741,11 @@ GameObject:
   m_Component:
   - component: {fileID: 270995123}
   - component: {fileID: 270995124}
+  - component: {fileID: 270995126}
+  - component: {fileID: 270995125}
   m_Layer: 0
   m_Name: Spawn Point (1)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -746,6 +774,30 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &270995125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 270995122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e0f973a3efdd0439a797474ee0f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOcupied: 0
+--- !u!135 &270995126
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 270995122}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &317567034
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,7 +880,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 1
+  m_Text: 
 --- !u!222 &317567038
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1045,7 +1097,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 
 --- !u!222 &634356597
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1253,7 +1305,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 
 --- !u!222 &704881364
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1738,9 +1790,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1067221744}
   - component: {fileID: 1067221745}
+  - component: {fileID: 1067221747}
+  - component: {fileID: 1067221746}
   m_Layer: 0
   m_Name: Spawn Point (4)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1769,6 +1823,30 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1067221746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1067221743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e0f973a3efdd0439a797474ee0f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOcupied: 0
+--- !u!135 &1067221747
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1067221743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1097868976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1851,7 +1929,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 
 --- !u!222 &1097868980
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1868,9 +1946,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1145453961}
   - component: {fileID: 1145453962}
+  - component: {fileID: 1145453964}
+  - component: {fileID: 1145453963}
   m_Layer: 0
   m_Name: Spawn Point (2)
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1899,6 +1979,30 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1145453963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145453960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e0f973a3efdd0439a797474ee0f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOcupied: 0
+--- !u!135 &1145453964
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1145453960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1150297786
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,7 +2085,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 3
+  m_Text: 
 --- !u!222 &1150297790
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2053,9 +2157,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1266118052}
   - component: {fileID: 1266118053}
+  - component: {fileID: 1266118055}
+  - component: {fileID: 1266118054}
   m_Layer: 0
   m_Name: Spawn Point
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2084,6 +2190,30 @@ MonoBehaviour:
   m_Script: {fileID: -1050975500, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1266118054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1266118051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5e0f973a3efdd0439a797474ee0f901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOcupied: 0
+--- !u!135 &1266118055
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1266118051}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1295629238
 Prefab:
   m_ObjectHideFlags: 0
@@ -2158,7 +2288,7 @@ GameObject:
   - component: {fileID: 1352695558}
   - component: {fileID: 1352695557}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Game Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2190,6 +2320,11 @@ MonoBehaviour:
   - {fileID: 704881363}
   - {fileID: 1097868979}
   - {fileID: 1489741260}
+  playerColors:
+  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1352695558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2451,7 +2586,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 
 --- !u!222 &1489741261
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2752,7 +2887,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Player 2
+  m_Text: 
 --- !u!222 &1787184266
 CanvasRenderer:
   m_ObjectHideFlags: 0

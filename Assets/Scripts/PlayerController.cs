@@ -13,13 +13,44 @@ public class PlayerController : NetworkBehaviour
     public float wait = 3f;
     public int score;
 
+    public NetworkStartPosition[] spawnPoints;
+    public Vector3 originalPosition;
+
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();
         pShoot = GetComponent<PlayerShoot>();
         pHealth = GetComponent<PlayerHealth>();
 	}
-	
-	void Update () {
+
+   /* public override void OnStartLocalPlayer()
+    {
+        Debug.Log("Entrou");
+        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        originalPosition = transform.position;
+    }*/
+
+    public override void OnStartClient()
+    {
+        Debug.Log("Entrou2");
+        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        originalPosition = transform.position;
+    }
+
+    /*public override void OnStartAuthority()
+    {
+        Debug.Log("Entrou3");
+        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        originalPosition = transform.position;
+    }*/
+
+    /*public override void OnStartServer()
+    {
+        Debug.Log("Entrou4");
+        spawnPoints = FindObjectsOfType<NetworkStartPosition>();
+        originalPosition = transform.position;
+    }*/
+
+    void Update () {
 
         if (!isLocalPlayer || pHealth.isDead)
         {
@@ -65,11 +96,64 @@ public class PlayerController : NetworkBehaviour
 
     public IEnumerator Respawn()
     {
-        transform.position = Vector3.zero;
-        pMotor.rb.velocity = Vector3.zero;
-        yield return new WaitForSeconds(wait);
-        pHealth.Reset();
-        GameObject newSpawnFX = Instantiate(spawnFX, transform.position, Quaternion.identity);
-        Destroy(newSpawnFX, 3f);
+        SpawnPoint oldSpawn = GetNearestSpawnPoint();
+		if(oldSpawn != null)
+		{
+			oldSpawn.isOcupied = false;
+		}
+
+		transform.position = GetRandomSpawnPosition();
+		pMotor.rb.velocity = Vector3.zero;
+		yield return new WaitForSeconds(3f);
+		pHealth.Reset();
+		GameObject newSpawnFX = Instantiate(spawnFX, transform.position, Quaternion.identity);
+		Destroy(newSpawnFX, 3f);
+    }
+
+    public SpawnPoint GetNearestSpawnPoint()
+    {
+        Collider[] triggerColliders = Physics.OverlapSphere(transform.position, 3f, Physics.AllLayers, QueryTriggerInteraction.Collide);
+        foreach (Collider c in triggerColliders)
+        {
+            SpawnPoint spawnpoint = c.GetComponent<SpawnPoint>();
+            if (spawnpoint != null)
+            {
+                return spawnpoint;
+            }
+        }
+
+        return null;
+    }
+
+    public Vector3 GetRandomSpawnPosition()
+    {
+        if (spawnPoints != null)
+        {
+            bool foundSpawner = false;
+            Vector3 newStartPosition = new Vector3();
+            float timeOut = Time.time + 2f;
+
+            while (!foundSpawner)
+
+            {
+                NetworkStartPosition startPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+                SpawnPoint spawnPoint = startPoint.GetComponent<SpawnPoint>();
+                if (spawnPoint.isOcupied == false)
+                {
+                    newStartPosition = startPoint.transform.position;
+                    foundSpawner = true;
+                }
+
+                if (Time.time > timeOut)
+                {
+                    foundSpawner = true;
+                    newStartPosition = originalPosition;
+                }
+            }
+
+            return newStartPosition;
+        }
+
+        return originalPosition;
     }
 }

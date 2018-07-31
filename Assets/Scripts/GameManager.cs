@@ -20,6 +20,8 @@ public class GameManager : NetworkBehaviour {
     public List<Text> nameText;
     public List<Text> playerScoreText;
 
+    public Color[] playerColors;
+
     private void Awake()
     {
         if(instance == null)
@@ -94,16 +96,19 @@ public class GameManager : NetworkBehaviour {
         if(playerCount < maxPlayers)
         {
             allPlayers.Add(pS.GetComponent<PlayerController>());
+            pS.playerColor = playerColors[playerCount];
+            pS.playerNum = playerCount + 1;
             playerCount++;
         }
     }
 
     [ClientRpc]
-    public void RpcUpdateScore(int[] playerScores)
+    public void RpcUpdateScore(int[] playerScores, string[] playerNames)
     {
         for(int i = 0; i < playerCount; i++)
         {
             playerScoreText[i].text = playerScores[i].ToString();
+            nameText[i].text = playerNames[i];
         }
     }
 
@@ -112,11 +117,14 @@ public class GameManager : NetworkBehaviour {
         if (isServer)
         {
             int[] scores = new int[playerCount];
+            string[] names = new string[playerCount];
+
             for (int i = 0; i < playerCount; i++)
             {
                 scores[i] = allPlayers[i].score;
+                names[i] = allPlayers[i].GetComponent<PlayerSetup>().playerNameText.text;
             }
-            RpcUpdateScore(scores);
+            RpcUpdateScore(scores, names);
         }
     }
 }

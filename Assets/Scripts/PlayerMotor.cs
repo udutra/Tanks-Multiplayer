@@ -13,8 +13,7 @@ public class PlayerMotor : NetworkBehaviour
     public float chassisRotateSpeed = 3f;
     public float turretRotateSpeed = 6f;
 
-    // Use this for initialization
-    void Start () {
+   void Start () {
         rb = GetComponent<Rigidbody>();
     }
 	

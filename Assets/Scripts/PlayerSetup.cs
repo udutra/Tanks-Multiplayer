@@ -6,14 +6,21 @@ using UnityEngine.UI;
 
 public class PlayerSetup : NetworkBehaviour
 {
-
+    [SyncVar (hook = "UpdateColor")]
     public Color playerColor;
-    public string baseName = "PLAYER";
+
+    [SyncVar(hook = "UpdateName")]
     public int playerNum = 1;
+    
+    public string baseName = "PLAYER";
     public Text playerNameText;
 
 	void Start () {
-		
+        if (!isLocalPlayer)
+        {
+            UpdateName(playerNum);
+            UpdateColor(playerColor);
+        }
 	}
 	
 	void Update () {
@@ -32,13 +39,6 @@ public class PlayerSetup : NetworkBehaviour
 
         CmdSetupPlayer();
 
-        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
-
-        foreach (MeshRenderer m in meshes)
-        {
-            m.material.color = playerColor;
-        }
-        playerNameText.enabled = true;
         playerNameText.text = baseName + " " + playerNum;
     }
 
@@ -46,5 +46,21 @@ public class PlayerSetup : NetworkBehaviour
     public void CmdSetupPlayer()
     {
         GameManager.instance.AddPlayer(this);
+    }
+
+    private void UpdateColor(Color color)
+    {
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+
+        foreach (MeshRenderer m in meshes)
+        {
+            m.material.color = color;
+        }
+    }
+
+    private void UpdateName(int pNum)
+    {
+        playerNameText.enabled = true;
+        playerNameText.text = baseName + " " + pNum;
     }
 }

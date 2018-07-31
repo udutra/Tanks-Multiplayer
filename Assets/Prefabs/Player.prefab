@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 114123427121615496}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -611,6 +611,9 @@ MonoBehaviour:
   pHealth: {fileID: 0}
   spawnFX: {fileID: 118206, guid: 49cea2316ec6a41589509c0e782d9213, type: 2}
   wait: 3
+  score: 0
+  spawnPoints: []
+  originalPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &114374845881713470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -643,6 +646,7 @@ MonoBehaviour:
   isDead: 0
   deathPrefab: {fileID: 140182, guid: ead306b39f6b0428fa246bfff7d603ff, type: 2}
   healthBar: {fileID: 224210351094960600}
+  lastAttacker: {fileID: 0}
   maxHealth: 3
   healthBarXSize: 0
 --- !u!114 &114440397477912378

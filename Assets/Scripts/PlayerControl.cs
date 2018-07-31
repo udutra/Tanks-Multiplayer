@@ -26,18 +26,18 @@ public class PlayerControl : NetworkBehaviour
         pSetup = GetComponent<PlayerSetup>();
 	}
 
-   public override void OnStartLocalPlayer()
+    /*public override void OnStartLocalPlayer()
     {
         Debug.Log("Entrou");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         originalPosition = transform.position;
-    }
+    }*/
 
-    /*public override void OnStartClient()
+    public override void OnStartClient()
     {
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         originalPosition = transform.position;
-    }*/
+    }
 
     /*public override void OnStartAuthority()
     {

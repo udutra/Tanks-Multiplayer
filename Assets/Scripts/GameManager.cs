@@ -32,7 +32,6 @@ public class GameManager : NetworkBehaviour {
         {
             Destroy(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     [Server]
@@ -55,6 +54,7 @@ public class GameManager : NetworkBehaviour {
             }
         }
 
+        yield return new WaitForSeconds(2f);
         yield return StartCoroutine(StartGame());
         yield return StartCoroutine(PlayGame());
         yield return StartCoroutine(EndGame());
@@ -67,12 +67,12 @@ public class GameManager : NetworkBehaviour {
         UpdateMessage("Lutem!");
         DisablePlayers();
     }
-
-
+    
     private IEnumerator StartGame()
     {
         Reset();
         RpcStartGame();
+        UpdateScore();
         yield return new WaitForSeconds(2f);
     }
 
@@ -103,7 +103,7 @@ public class GameManager : NetworkBehaviour {
     private IEnumerator EndGame()
     {
         RpcEndGame();
-        UpdateMessage("Game Over \n" + winner.pSetup.baseName + " venceu!");
+        RpcUpdateMessage("Game Over \n" + winner.pSetup.baseName + " venceu!");
         yield return new WaitForSeconds(3f);
         Reset();
         LobbyManager.s_Singleton._playerNumber = 0;
@@ -118,6 +118,10 @@ public class GameManager : NetworkBehaviour {
 
     public void UpdateMessage(string msg)
     {
+        if(messagText == null)
+        {
+            return;
+        }
         messagText.gameObject.SetActive(true);
         messagText.text = (msg);
     }
@@ -152,11 +156,11 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
-    /*
+    
     [ClientRpc]
     public void RpcUpdateScore(int[] playerScores, string[] playerNames)
     {
-        for(int i = 0; i < playerCount; i++)
+        for(int i = 0; i < allPlayers.Count; i++)
         {
             playerScoreText[i].text = playerScores[i].ToString();
             nameText[i].text = playerNames[i];
@@ -167,24 +171,20 @@ public class GameManager : NetworkBehaviour {
     {
         if (isServer)
         {
-            winner = GetWinner();
+            string[] pNames = new string[allPlayers.Count];
+            int[] pScores = new int[allPlayers.Count];
 
-            if(winner != null)
+            for (int i = 0; i < allPlayers.Count; i++)
             {
-                gameOver = true;
+                if(allPlayers[i] != null)
+                {
+                    pNames[i] = allPlayers[i].GetComponent<PlayerSetup>().baseName;
+                    pScores[i] = allPlayers[i].score;
+                }
             }
-
-            int[] scores = new int[playerCount];
-            string[] names = new string[playerCount];
-
-            for (int i = 0; i < playerCount; i++)
-            {
-                scores[i] = allPlayers[i].score;
-                names[i] = allPlayers[i].GetComponent<PlayerSetup>().playerNameText.text;
-            }
-            RpcUpdateScore(scores, names);
+            RpcUpdateScore(pScores, pNames);
         }
-    }*/
+    }
 
     public PlayerControl GetWinner()
     {

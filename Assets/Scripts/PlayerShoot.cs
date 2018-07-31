@@ -11,18 +11,26 @@ public class PlayerShoot : NetworkBehaviour {
     public float nextFire;
     public Transform bulletSpawn;
 
-	void Start () {
-		
-	}
-	
-	void Update () {
-		
-	}
+    public bool canShoot = false;
+
+    public void Enable()
+    {
+        canShoot = true;   
+    }
+
+    public void Disable()
+    {
+        canShoot = false;
+    }
 
     [Command]
     public void CmdShoot()
     {
-        if(Time.time > nextFire)
+        if (!canShoot)
+        {
+            return;
+        }
+        if (Time.time > nextFire)
         {
             nextFire = Time.time + fireRate;
             Rigidbody tempBullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
@@ -30,5 +38,6 @@ public class PlayerShoot : NetworkBehaviour {
             tempBullet.GetComponent<Bullet>().owner = GetComponent<PlayerControl>();
             NetworkServer.Spawn(tempBullet.gameObject);
         }
+        
     }
 }

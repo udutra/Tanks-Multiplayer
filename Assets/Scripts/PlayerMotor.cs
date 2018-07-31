@@ -13,18 +13,28 @@ public class PlayerMotor : NetworkBehaviour
     public float chassisRotateSpeed = 3f;
     public float turretRotateSpeed = 6f;
 
+    public bool canMove = false;
+
    void Start () {
         rb = GetComponent<Rigidbody>();
     }
 	
 	public void MovePlayer(Vector3 dir)
     {
+        if (!canMove)
+        {
+            return;
+        }
         Vector3 moveDirection = dir * moveSpeed * Time.deltaTime;
         rb.velocity = moveDirection;
     }
 
     public void FaceDirection(Transform xForm, Vector3 dir, float rotSpeed)
     {
+        if (!canMove)
+        {
+            return;
+        }
         if (dir != Vector3.zero && xForm != null)
         {
             Quaternion desiredRot = Quaternion.LookRotation(dir);
@@ -40,5 +50,15 @@ public class PlayerMotor : NetworkBehaviour
     public void RotateTurret(Vector3 dir)
     {
         FaceDirection(turret, dir, turretRotateSpeed);
+    }
+
+    public void Enable()
+    {
+        canMove = true;
+    }
+
+    public void Disable()
+    {
+        canMove = false;
     }
 }

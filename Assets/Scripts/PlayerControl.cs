@@ -12,12 +12,12 @@ public class PlayerControl : NetworkBehaviour
     public PlayerSetup pSetup;
     public GameObject spawnFX;
     public float wait = 3f;
+
+    [SyncVar]
     public int score;
 
     public NetworkStartPosition[] spawnPoints;
     public Vector3 originalPosition;
-
-    
 
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();
@@ -26,18 +26,18 @@ public class PlayerControl : NetworkBehaviour
         pSetup = GetComponent<PlayerSetup>();
 	}
 
-   /* public override void OnStartLocalPlayer()
+   public override void OnStartLocalPlayer()
     {
         Debug.Log("Entrou");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         originalPosition = transform.position;
-    }*/
+    }
 
-    public override void OnStartClient()
+    /*public override void OnStartClient()
     {
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         originalPosition = transform.position;
-    }
+    }*/
 
     /*public override void OnStartAuthority()
     {
@@ -97,6 +97,12 @@ public class PlayerControl : NetworkBehaviour
         StartCoroutine(Respawn());
     }
 
+    private void OnDestroy()
+    {
+        GameManager.allPlayers.Remove(this);
+    }
+
+
     public IEnumerator Respawn()
     {
         SpawnPoint oldSpawn = GetNearestSpawnPoint();
@@ -111,6 +117,8 @@ public class PlayerControl : NetworkBehaviour
 		pHealth.Reset();
 		GameObject newSpawnFX = Instantiate(spawnFX, transform.position, Quaternion.identity);
 		Destroy(newSpawnFX, 3f);
+        EnableControls();
+
     }
 
     public SpawnPoint GetNearestSpawnPoint()
@@ -159,4 +167,17 @@ public class PlayerControl : NetworkBehaviour
 
         return originalPosition;
     }
+
+    public void EnableControls()
+    {
+        pShoot.Enable();
+        pMotor.Enable();
+    }
+
+    public void DisableControls()
+    {
+        pShoot.Disable();
+        pMotor.Disable();
+    }
+
 }

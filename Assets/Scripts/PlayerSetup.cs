@@ -9,42 +9,25 @@ public class PlayerSetup : NetworkBehaviour
     [SyncVar (hook = "UpdateColor")]
     public Color playerColor;
 
-
-    //public int playerNum = 1;
-
     [SyncVar(hook = "UpdateName")]
     public string baseName = "PLAYER";
 
     public Text playerNameText;
 
-	void Start () {
-        UpdateName(baseName);
-        UpdateColor(playerColor);
-	}
-	
-	void Update () {
-		
-	}
-
-    public override void OnStartClient()
+	public override void OnStartClient()
     {
         base.OnStartClient();
-        playerNameText.enabled = false;
-    }
 
-    /*public override void OnStartLocalPlayer()
-    {
-        base.OnStartLocalPlayer();
-
-        CmdSetupPlayer();
-
-        playerNameText.text = baseName + " " + playerNum;
-    }*/
-
-    [Command]
-    public void CmdSetupPlayer()
-    {
-        GameManager.instance.AddPlayer(this);
+        if (!isServer)
+        {
+            PlayerControl pControl = GetComponent<PlayerControl>();
+            if (pControl != null)
+            {
+                GameManager.allPlayers.Add(pControl);
+            }
+        }
+        UpdateName(baseName);
+        UpdateColor(playerColor);
     }
 
     private void UpdateColor(Color color)

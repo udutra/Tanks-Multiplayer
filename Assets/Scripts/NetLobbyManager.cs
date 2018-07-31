@@ -6,15 +6,18 @@ using Prototype.NetworkLobby;
 
 public class NetLobbyManager : LobbyHook {
 
-    public LobbyPlayer lPlayer;
-    public PlayerSetup pSetup;
-
     public override void OnLobbyServerSceneLoadedForPlayer(NetworkManager manager, GameObject lobbyPlayer, GameObject gamePlayer)
     {
-        lPlayer = lobbyPlayer.GetComponent<LobbyPlayer>();
-        pSetup = gamePlayer.GetComponent<PlayerSetup>();
+        LobbyPlayer lPlayer = lobbyPlayer.GetComponent<LobbyPlayer>();
+        PlayerSetup pSetup = gamePlayer.GetComponent<PlayerSetup>();
 
         pSetup.baseName = lPlayer.playerName;
         pSetup.playerColor = lPlayer.playerColor;
+
+        PlayerControl pControl = gamePlayer.GetComponent<PlayerControl>();
+        if (pControl != null)
+        {
+            GameManager.allPlayers.Add(pControl);
+        }
     }
 }

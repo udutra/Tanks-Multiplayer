@@ -35,7 +35,6 @@ public class PlayerControl : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        Debug.Log("Entrou2");
         spawnPoints = FindObjectsOfType<NetworkStartPosition>();
         originalPosition = transform.position;
     }

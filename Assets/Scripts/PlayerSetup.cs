@@ -9,18 +9,17 @@ public class PlayerSetup : NetworkBehaviour
     [SyncVar (hook = "UpdateColor")]
     public Color playerColor;
 
+
+    //public int playerNum = 1;
+
     [SyncVar(hook = "UpdateName")]
-    public int playerNum = 1;
-    
     public string baseName = "PLAYER";
+
     public Text playerNameText;
 
 	void Start () {
-        if (!isLocalPlayer)
-        {
-            UpdateName(playerNum);
-            UpdateColor(playerColor);
-        }
+        UpdateName(baseName);
+        UpdateColor(playerColor);
 	}
 	
 	void Update () {
@@ -33,14 +32,14 @@ public class PlayerSetup : NetworkBehaviour
         playerNameText.enabled = false;
     }
 
-    public override void OnStartLocalPlayer()
+    /*public override void OnStartLocalPlayer()
     {
         base.OnStartLocalPlayer();
 
         CmdSetupPlayer();
 
         playerNameText.text = baseName + " " + playerNum;
-    }
+    }*/
 
     [Command]
     public void CmdSetupPlayer()
@@ -58,9 +57,9 @@ public class PlayerSetup : NetworkBehaviour
         }
     }
 
-    private void UpdateName(int pNum)
+    private void UpdateName(string nome)
     {
         playerNameText.enabled = true;
-        playerNameText.text = baseName + " " + pNum;
+        playerNameText.text = nome;
     }
 }

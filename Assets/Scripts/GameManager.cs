@@ -16,7 +16,7 @@ public class GameManager : NetworkBehaviour {
     public int playerCount = 0;
 
 
-    public List<PlayerController> allPlayers;
+    public List<PlayerControl> allPlayers;
     public List<Text> nameText;
     public List<Text> playerScoreText;
 
@@ -27,7 +27,7 @@ public class GameManager : NetworkBehaviour {
     [SyncVar]
     public bool gameOver = false;
 
-    private PlayerController winner;
+    private PlayerControl winner;
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class GameManager : NetworkBehaviour {
     {
         while (playerCount < minPlayers)
         {
-            updateMessage("Esperando jogadores...");
+            UpdateMessage("Esperando jogadores...");
             DisablePlayers();
             yield return null;
         }
@@ -69,7 +69,7 @@ public class GameManager : NetworkBehaviour {
 
     private IEnumerator PlayGame()
     {
-        updateMessage("");
+        UpdateMessage("");
         EnablePlayers();
         UpdateScore();
         while (!gameOver)
@@ -81,10 +81,10 @@ public class GameManager : NetworkBehaviour {
     private IEnumerator EndGame()
     {
         DisablePlayers();
-        updateMessage("Game Over \n" + winner.pSetup.playerNameText.text + " venceu!");
+        UpdateMessage("Game Over \n" + winner.pSetup.playerNameText.text + " venceu!");
         Reset();
         yield return new WaitForSeconds(3f);
-        updateMessage("Reiniciando...");
+        UpdateMessage("Reiniciando...");
         yield return new WaitForSeconds(3f);
     }
 
@@ -95,7 +95,7 @@ public class GameManager : NetworkBehaviour {
         messagText.text = msg;
     } 
 
-    public void updateMessage(string msg)
+    public void UpdateMessage(string msg)
     {
         if (isServer)
         {
@@ -106,8 +106,8 @@ public class GameManager : NetworkBehaviour {
     [ClientRpc]
     private void RpcSetPlayerState(bool state)
     {
-        PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
-        foreach (PlayerController p in allPlayers)
+        PlayerControl[] allPlayers = FindObjectsOfType<PlayerControl>();
+        foreach (PlayerControl p in allPlayers)
         {
             p.enabled = state;
         }
@@ -133,7 +133,7 @@ public class GameManager : NetworkBehaviour {
     {
         if(playerCount < maxPlayers)
         {
-            allPlayers.Add(pS.GetComponent<PlayerController>());
+            allPlayers.Add(pS.GetComponent<PlayerControl>());
             pS.playerColor = playerColors[playerCount];
             pS.playerNum = playerCount + 1;
             playerCount++;
@@ -173,7 +173,7 @@ public class GameManager : NetworkBehaviour {
         }
     }
 
-    public PlayerController GetWinner()
+    public PlayerControl GetWinner()
     {
         if (isServer)
         {
@@ -191,8 +191,8 @@ public class GameManager : NetworkBehaviour {
     [ClientRpc]
     public void RpcReset()
     {
-        PlayerController[] players = FindObjectsOfType<PlayerController>();
-        foreach (PlayerController player in players)
+        PlayerControl[] players = FindObjectsOfType<PlayerControl>();
+        foreach (PlayerControl player in players)
         {
             player.score = 0;
         }

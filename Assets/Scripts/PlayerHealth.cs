@@ -14,7 +14,7 @@ public class PlayerHealth : NetworkBehaviour
 
     public GameObject deathPrefab;
     public RectTransform healthBar;
-    public PlayerController lastAttacker;
+    public PlayerControl lastAttacker;
     public float maxHealth;
     public float healthBarXSize;
 
@@ -28,14 +28,14 @@ public class PlayerHealth : NetworkBehaviour
         Reset();
     }
 
-    public void TakeDamage(float damage, PlayerController pc = null)
+    public void TakeDamage(float damage, PlayerControl pc = null)
     {
         if (!isServer)
         {
             return;
         }
 
-        if(pc != null && pc != this.GetComponent<PlayerController>() )
+        if(pc != null && pc != this.GetComponent<PlayerControl>() )
         {
             lastAttacker = pc;
         }

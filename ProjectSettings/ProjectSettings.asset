@@ -749,9 +749,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudProjectId: b6477f75-a57f-44d6-b7c2-507bc32adb67
+  projectName: Tanks Multiplayer
+  organizationId: guilhermegd
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0

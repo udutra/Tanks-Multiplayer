@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour {
     public ParticleSystem explosionFX;
     public Rigidbody rb;
     public Collider col;
-    public PlayerController owner;
+    public PlayerControl owner;
     public int bounces = 2;
     public int valueBulletDamage = 1;
 

@@ -22,6 +22,13 @@ public class GameManager : NetworkBehaviour {
 
     public Color[] playerColors;
 
+    public int maxScore = 3;
+
+    [SyncVar]
+    public bool gameOver = false;
+
+    private PlayerController winner;
+
     private void Awake()
     {
         if(instance == null)
@@ -48,13 +55,13 @@ public class GameManager : NetworkBehaviour {
         yield return StartCoroutine(EnterLoby());
         yield return StartCoroutine(PlayGame());
         yield return StartCoroutine(EndGame());
+        StartCoroutine(GameLoopRoutine());
     }
     private IEnumerator EnterLoby()
     {
-        messagText.gameObject.SetActive(true);
-        messagText.text = "Esperando jogadores...";
         while (playerCount < minPlayers)
         {
+            updateMessage("Esperando jogadores...");
             DisablePlayers();
             yield return null;
         }
@@ -62,18 +69,42 @@ public class GameManager : NetworkBehaviour {
 
     private IEnumerator PlayGame()
     {
+        updateMessage("");
         EnablePlayers();
         UpdateScore();
-        messagText.gameObject.SetActive(false);
-        yield return null;
+        while (!gameOver)
+        {
+            yield return null;
+        }
     }
 
     private IEnumerator EndGame()
     {
-        yield return null;
+        DisablePlayers();
+        updateMessage("Game Over \n" + winner.pSetup.playerNameText.text + " venceu!");
+        Reset();
+        yield return new WaitForSeconds(3f);
+        updateMessage("Reiniciando...");
+        yield return new WaitForSeconds(3f);
     }
 
-    private void SetPlayerState(bool state)
+    [ClientRpc]
+    public void RpcUpdateMessage(string msg)
+    {
+        messagText.gameObject.SetActive(true);
+        messagText.text = msg;
+    } 
+
+    public void updateMessage(string msg)
+    {
+        if (isServer)
+        {
+            RpcUpdateMessage(msg);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcSetPlayerState(bool state)
     {
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
         foreach (PlayerController p in allPlayers)
@@ -84,11 +115,18 @@ public class GameManager : NetworkBehaviour {
 
     private void EnablePlayers()
     {
-        SetPlayerState(true);
+        if (isServer)
+        {
+            RpcSetPlayerState(true);
+        }
+        
     }
     private void DisablePlayers()
     {
-        SetPlayerState(false);
+        if (isServer)
+        {
+            RpcSetPlayerState(false);
+        }
     }
 
     public void AddPlayer(PlayerSetup pS)
@@ -116,6 +154,13 @@ public class GameManager : NetworkBehaviour {
     {
         if (isServer)
         {
+            winner = GetWinner();
+
+            if(winner != null)
+            {
+                gameOver = true;
+            }
+
             int[] scores = new int[playerCount];
             string[] names = new string[playerCount];
 
@@ -125,6 +170,42 @@ public class GameManager : NetworkBehaviour {
                 names[i] = allPlayers[i].GetComponent<PlayerSetup>().playerNameText.text;
             }
             RpcUpdateScore(scores, names);
+        }
+    }
+
+    public PlayerController GetWinner()
+    {
+        if (isServer)
+        {
+            for(int i = 0; i < playerCount; i++)
+            {
+                if(allPlayers[i].score >= maxScore)
+                {
+                    return allPlayers[i];
+                }
+            }
+        }
+        return null;
+    }
+
+    [ClientRpc]
+    public void RpcReset()
+    {
+        PlayerController[] players = FindObjectsOfType<PlayerController>();
+        foreach (PlayerController player in players)
+        {
+            player.score = 0;
+        }
+    }
+
+    public void Reset()
+    {
+        if (isServer)
+        {
+            RpcReset();
+            UpdateScore();
+            winner = null;
+            gameOver = false;
         }
     }
 }

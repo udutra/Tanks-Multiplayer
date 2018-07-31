@@ -9,6 +9,7 @@ public class PlayerController : NetworkBehaviour
     public PlayerMotor pMotor;
     public PlayerShoot pShoot;
     public PlayerHealth pHealth;
+    public PlayerSetup pSetup;
     public GameObject spawnFX;
     public float wait = 3f;
     public int score;
@@ -16,10 +17,13 @@ public class PlayerController : NetworkBehaviour
     public NetworkStartPosition[] spawnPoints;
     public Vector3 originalPosition;
 
+    
+
 	void Start () {
         pMotor = GetComponent<PlayerMotor>();
         pShoot = GetComponent<PlayerShoot>();
         pHealth = GetComponent<PlayerHealth>();
+        pSetup = GetComponent<PlayerSetup>();
 	}
 
    /* public override void OnStartLocalPlayer()
